@@ -4,9 +4,13 @@ import io.cucumber.java.en.*;
 
 import org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class StepDefinitions {
+
+    String result;
+    String today;
 
     @Given("an example scenario")
     public void anExampleScenario() {
@@ -20,24 +24,9 @@ public class StepDefinitions {
     public void theScenarioPasses() {
     }
 
-}
-
-class IsItFriday {
-    String today;
-    String result;
-
-    static String isItFriday(String today) {
-        if (today == "Friday") {
-            return "Yes";
-        }
-        else {
-            return "Nope";
-        }
-    }
-
-    @Given("today is Sunday")
-    public void SundayScenario() {
-        today = "Sunday";
+    @Given("today is {string}")
+    public void today_is(String day) {
+        today = day;
     }
 
     @When("I ask whether it's Friday yet")
@@ -46,7 +35,13 @@ class IsItFriday {
     }
 
     @Then("I should be told {string}")
-    public void i_should_be_told(String string) {
-        assertEquals(string, result);
+    public void i_should_be_told(String expectedAnswer) {
+        assertEquals(expectedAnswer, result);
+    }
+}
+
+class IsItFriday {
+    static String isItFriday(String today) {
+        return "Friday".equals(today) ? "TGIF" : "Nope";
     }
 }
